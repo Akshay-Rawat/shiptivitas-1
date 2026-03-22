@@ -1,0 +1,9 @@
+echo "Added Kanban board with 3 swimlanes (Backlog, In Progress, Complete). Integrated Dragula for drag-and-drop in componentDidMount using React refs. Cards change colour on lane change - grey/blue/green. All swimlanes have Swimlane-column class. GitHub: https://github.com/Akshay-Rawat/shiptivitas-1" > annotations.txt
+```
+
+Then:
+
+1. Go back to the submission page
+2. Under **"Upload any annotations"** — click upload and select `annotations.txt` from:
+```
+   C:\Users\rawat\OneDrive\Desktop\YC\shiptivitas-1\
