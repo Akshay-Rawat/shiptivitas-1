@@ -21,6 +21,37 @@ export default class Board extends React.Component {
       complete: React.createRef(),
     }
   }
+
+  componentDidMount() {
+    const { backlog, inProgress, complete } = this.swimlanes;
+
+    this.drake = Dragula([
+      backlog.current,
+      inProgress.current,
+      complete.current,
+    ]);
+
+    this.drake.on('drop', (el, target) => {
+      // Determine which lane the card was dropped into
+      let newStatus = 'backlog';
+      if (target === inProgress.current) newStatus = 'in-progress';
+      if (target === complete.current)   newStatus = 'complete';
+
+      // Update the card's colour class immediately via DOM
+      el.className = 'Card';
+      if (newStatus === 'backlog')     el.classList.add('Card-grey');
+      if (newStatus === 'in-progress') el.classList.add('Card-blue');
+      if (newStatus === 'complete')    el.classList.add('Card-green');
+
+      // Update data-status so the card knows its lane
+      el.setAttribute('data-status', newStatus);
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.drake) this.drake.destroy();
+  }
+
   getClients() {
     return [
       ['1','Stark, White and Abbott','Cloned Optimal Architecture', 'in-progress'],
@@ -50,6 +81,7 @@ export default class Board extends React.Component {
       status: companyDetails[3],
     }));
   }
+
   renderSwimlane(name, clients, ref) {
     return (
       <Swimlane name={name} clients={clients} dragulaRef={ref}/>
